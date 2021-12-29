@@ -49,7 +49,7 @@ public class Estado implements Serializable {
 		this.nome = nome;
 	}
 	
-	public List<Cidade> getCidades() {
+	public List<Cidade> getCidades(List<Cidade> list) {
 		return cidades;
 	}
 
