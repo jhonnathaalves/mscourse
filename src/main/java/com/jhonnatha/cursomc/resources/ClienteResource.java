@@ -23,6 +23,8 @@ import com.jhonnatha.cursomc.dto.ClienteDTO;
 import com.jhonnatha.cursomc.dto.ClienteNewDTO;
 import com.jhonnatha.cursomc.services.ClienteService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/clientes")
 public class ClienteResource {
@@ -30,6 +32,7 @@ public class ClienteResource {
 	@Autowired
 	private ClienteService service;
 	
+	@ApiOperation(value="Busca por id")
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
@@ -38,6 +41,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Inserir Cliente")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 		Cliente obj = service.fromDTO(objDto);
@@ -47,6 +51,7 @@ public class ClienteResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Atualizar Cliente")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(objDto);
@@ -56,6 +61,7 @@ public class ClienteResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Deletar Cliente")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
@@ -63,6 +69,7 @@ public class ClienteResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Buscar todos os Clientes")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<Cliente> list = service.findAll();
@@ -71,6 +78,7 @@ public class ClienteResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Buscar todos os Clientes com paginação")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<ClienteDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
